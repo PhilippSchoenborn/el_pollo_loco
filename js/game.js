@@ -1,8 +1,11 @@
 let canvas;
-let charater = new Image();
+let ctx;
+let charater = new MovableObject();
 
 
 function init(){
     canvas = document.getElementById('canvas')
-    charater.src = '../img/2_character_pepe/2_walk';
+    ctx = canvas.getContext('2d');
+
+    console.log('my charater is', charater);
 }
