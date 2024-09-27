@@ -17,11 +17,13 @@ class MovableObject {
     }
 
     drawFrame(ctx){
-        ctx.beginPath();
-        ctx.lineWidth = '2';
-        ctx.strokeStyle = 'green';
-        ctx.rect(this.x, this.y, this.width, this.height);
-        ctx.stroke();
+        if(this instanceof Character || this instanceof Chicken || this instanceof Endboss){
+            ctx.beginPath();
+            ctx.lineWidth = '2';
+            ctx.strokeStyle = 'green';
+            ctx.rect(this.x, this.y, this.width, this.height);
+            ctx.stroke();
+        }
     }
 
     applyGravity(){
@@ -60,7 +62,7 @@ class MovableObject {
 
     playAnimation(images){
         let i = this.currentImage % this.IMAGES_WALKING.length;
-        let path = images[i];
+        let path = images[i]; 
         this.img = this.imageCache[path];
         this.currentImage++;
     }
@@ -69,4 +71,10 @@ class MovableObject {
         this.speedY = 30;
     }
 
+    isColliding(mo){
+        return this.x + this.width > mo.x &&
+            this.y + this.height > mo.y &&
+            this.x < mo.x &&
+            this.y < mo.y + mo.height;
+    }
 }

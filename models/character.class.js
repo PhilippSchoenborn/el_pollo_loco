@@ -1,5 +1,4 @@
 class Character extends MovableObject{
-    y = 80;
     height = 220;
     width = 120;
     speed = 3;
@@ -39,8 +38,8 @@ class Character extends MovableObject{
             this.walking_sound.pause();
             if(this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x){
                 this.moveRight();
-                this.otherDirection = false;
                 this.walking_sound.play();
+                this.otherDirection = false;
             }
             if(this.world.keyboard.LEFT && this.x > 0){
                 this.moveLeft();
