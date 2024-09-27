@@ -78,4 +78,8 @@ class MovableObject {
             this.x < mo.x &&
             this.y < mo.y + mo.height;
     }
+
+    hit(){
+        this.energy -= 5;
+    }
 }
