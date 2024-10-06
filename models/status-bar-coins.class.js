@@ -7,7 +7,7 @@ class StatusBarCoins extends DrawableObject {
         './img/7_statusbars/1_statusbar/1_statusbar_coin/green/80.png',
         './img/7_statusbars/1_statusbar/1_statusbar_coin/green/100.png',
     ];
-    percentage = 0;  // Start with 0 coins
+    percentage = 0;
 
     constructor() {
         super();
@@ -16,7 +16,7 @@ class StatusBarCoins extends DrawableObject {
         this.y = 40;
         this.width = 180;
         this.height = 50;
-        this.setPercentage(0);  // Start with the first image (0%)
+        this.setPercentage(0);
     }
 
     setPercentage(percentage) {
@@ -26,8 +26,8 @@ class StatusBarCoins extends DrawableObject {
     }
 
     increaseCoins() {
-        if (this.percentage < 100) {  // Make sure percentage does not exceed 100
-            this.percentage += 10;  // Increase by 10% per coin
+        if (this.percentage < 100) {
+            this.percentage += 10;
             this.setPercentage(this.percentage);
         }
     }
