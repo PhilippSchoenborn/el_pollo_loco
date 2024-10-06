@@ -1,4 +1,4 @@
-class StatusBarCoins extends DrawableObject{
+class StatusBarCoins extends DrawableObject {
     IMAGES_COINS = [
         './img/7_statusbars/1_statusbar/1_statusbar_coin/green/0.png',
         './img/7_statusbars/1_statusbar/1_statusbar_coin/green/20.png',
@@ -7,38 +7,44 @@ class StatusBarCoins extends DrawableObject{
         './img/7_statusbars/1_statusbar/1_statusbar_coin/green/80.png',
         './img/7_statusbars/1_statusbar/1_statusbar_coin/green/100.png',
     ];
-    percentage = 100;
-    
-    constructor(){
+    percentage = 0;  // Start with 0 coins
+
+    constructor() {
         super();
         this.loadImages(this.IMAGES_COINS);
         this.x = 25;
         this.y = 40;
         this.width = 180;
         this.height = 50;
-        this.setPercentage(100);
+        this.setPercentage(0);  // Start with the first image (0%)
     }
-    
-    setPercentage(percentage){
+
+    setPercentage(percentage) {
         this.percentage = percentage;
         let path = this.IMAGES_COINS[this.resolveImageIndex()];
         this.img = this.imageCache[path];
     }
-    
-    resolveImageIndex(){
-        if(this.percentage == 100){
+
+    increaseCoins() {
+        if (this.percentage < 100) {  // Make sure percentage does not exceed 100
+            this.percentage += 10;  // Increase by 10% per coin
+            this.setPercentage(this.percentage);
+        }
+    }
+
+    resolveImageIndex() {
+        if (this.percentage >= 100) {
             return 5;
-        } else if(this.percentage > 80){
+        } else if (this.percentage > 80) {
             return 4;
-        } else if(this.percentage > 60){
+        } else if (this.percentage > 60) {
             return 3;
-        } else if(this.percentage > 40){
+        } else if (this.percentage > 40) {
             return 2;
-        } else if(this.percentage > 20){
+        } else if (this.percentage > 20) {
             return 1;
         } else {
             return 0;
         }
     }
-    
-    }
+}

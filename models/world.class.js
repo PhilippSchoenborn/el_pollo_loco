@@ -9,6 +9,7 @@ class World{
     statusBarCoins = new StatusBarCoins();
     statusBarBottles = new StatusBarBottles();
     throwableObjects = [new ThrowableObject()];
+    collectableItems = [];
     
 
     constructor(canvas, keyboard){
@@ -18,6 +19,7 @@ class World{
         this.draw();
         this.setWorld();
         this.run();
+        this.spawnCoins();
     }
 
     setWorld(){
@@ -31,13 +33,22 @@ class World{
         }, 200);
     }
 
-    checkCollisions(){
-        this.level.enemies.forEach((enemy) =>{
-            if(this.character.isColliding(enemy)){
+    checkCollisions() {
+        // Check collision with enemies
+        this.level.enemies.forEach((enemy) => {
+            if (this.character.isColliding(enemy)) {
                 this.character.hit();
                 this.statusBar.setPercentage(this.character.energy);
             }
-        })
+        });
+    
+        // Check collision with coins
+        this.collectableItems.forEach((coin, index) => {
+            if (this.character.isColliding(coin)) {
+                this.collectableItems.splice(index, 1);  // Remove the coin upon collision
+                this.statusBarCoins.increaseCoins();     // Update the coin status bar
+            }
+        });
     }
 
     checkThrowObjects() {
@@ -61,6 +72,7 @@ class World{
 
         this.ctx.translate(this.camera_x, 0);
 
+        this.addObjectsToMap(this.collectableItems);
         this.addToMap(this.character);
         this.addObjectsToMap(this.throwableObjects);
         this.addObjectsToMap(this.level.enemies);
@@ -92,6 +104,32 @@ class World{
         this.ctx.translate(mo.x + mo.width / 2, mo.y);
         this.ctx.scale(-1, 1);
         this.ctx.translate(-mo.x - mo.width / 2, -mo.y);
+    }
+
+    spawnCoins() {
+        let fixedY = 350;  // Fixed Y position for all coins
+
+        for (let i = 0; i < 10; i++) {
+            let randomX;
+            let overlap;
+
+            do {
+                randomX = 350 + Math.random() * 2200;  // Random X within the canvas width
+                overlap = this.checkOverlap(randomX);  // Check if the position overlaps
+            } while (overlap);  // If it overlaps, generate a new random X
+
+            let coin = new CollectableItems(randomX, fixedY);
+            this.collectableItems.push(coin);
+        }
+    }
+
+    checkOverlap(newX) {
+        for (let coin of this.collectableItems) {
+            if (Math.abs(newX - coin.x) < 120) {  // Ensure distance of 20px
+                return true;  // Overlap detected
+            }
+        }
+        return false;  // No overlap
     }
 
 }
