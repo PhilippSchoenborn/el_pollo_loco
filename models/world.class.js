@@ -40,14 +40,13 @@ class World{
         })
     }
 
-    checkThrowObjects(){
-        if(this.keyboard.D){
-            let bottle = new ThrowableObject(this.character.x, this.character.y)
+    checkThrowObjects() {
+        if (this.keyboard.D) {
+            console.log('Throwing bottle');
+            let bottle = new ThrowableObject(this.character.x + 65, this.character.y + 100);
             this.throwableObjects.push(bottle);
         }
     }
-
-
 
     draw(){
  
