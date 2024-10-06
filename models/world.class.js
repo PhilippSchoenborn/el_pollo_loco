@@ -42,6 +42,13 @@ class World{
                 this.statusBar.setPercentage(this.character.energy);
             }
         });
+        
+        // Überprüfe die Kollision mit dem Endboss
+        if (this.level.endboss && this.character.isColliding(this.level.endboss)) {
+            this.character.hit(); // Verarbeite die Kollision mit dem Endboss
+            this.statusBar.setPercentage(this.character.energy);
+        }
+    
         this.collectableCoins.forEach((coin, index) => {
             if (this.character.isColliding(coin)) {
                 this.collectableCoins.splice(index, 1);
@@ -54,6 +61,9 @@ class World{
                 this.statusBarBottles.increaseBottles();
             }
         });
+        if (this.level.endboss) {
+            this.level.endboss.checkCharacterProximity(this.character);
+        }
     }
 
     checkThrowObjects() {
@@ -106,9 +116,9 @@ class World{
     }
     
     flipImage(mo) {
-        this.ctx.translate(mo.x + mo.width / 2, mo.y);
-        this.ctx.scale(-1, 1);
-        this.ctx.translate(-mo.x - mo.width / 2, -mo.y);
+        this.ctx.translate(mo.x + mo.width / 2, mo.y); // Mittelpunktsübersetzung für die Spiegelung
+        this.ctx.scale(-1, 1); // Spiegeln entlang der X-Achse
+        this.ctx.translate(-mo.x - mo.width / 2, -mo.y); // Rückübersetzung zur ursprünglichen Position
     }
 
     spawnCoins() {
