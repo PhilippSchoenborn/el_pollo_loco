@@ -1,4 +1,4 @@
-class World{
+class World {
     character = new Character();
     level = level1;
     canvas;
@@ -12,7 +12,6 @@ class World{
     collectableCoins = [];
     collectableBottles = [];
     
-
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -32,6 +31,11 @@ class World{
         setInterval(() => {
             this.checkCollisions();
             this.checkThrowObjects();
+
+            // Überprüfe die Proximität nur für den Endboss
+            if (this.level.endboss) {
+                this.level.endboss.checkCharacterProximity(this.character); // Überprüfe die Proximität nur für den Endboss
+            }
         }, 200);
     }
 
@@ -43,9 +47,8 @@ class World{
             }
         });
         
-        // Überprüfe die Kollision mit dem Endboss
         if (this.level.endboss && this.character.isColliding(this.level.endboss)) {
-            this.character.hit(); // Verarbeite die Kollision mit dem Endboss
+            this.character.hit();
             this.statusBar.setPercentage(this.character.energy);
         }
     
@@ -55,12 +58,14 @@ class World{
                 this.statusBarCoins.increaseCoins();
             }
         });
+        
         this.collectableBottles.forEach((bottle, index) => {
             if (this.character.isColliding(bottle)) {
                 this.collectableBottles.splice(index, 1);
                 this.statusBarBottles.increaseBottles();
             }
         });
+    
         if (this.level.endboss) {
             this.level.endboss.checkCharacterProximity(this.character);
         }
@@ -116,9 +121,9 @@ class World{
     }
     
     flipImage(mo) {
-        this.ctx.translate(mo.x + mo.width / 2, mo.y); // Mittelpunktsübersetzung für die Spiegelung
-        this.ctx.scale(-1, 1); // Spiegeln entlang der X-Achse
-        this.ctx.translate(-mo.x - mo.width / 2, -mo.y); // Rückübersetzung zur ursprünglichen Position
+        this.ctx.translate(mo.x + mo.width / 2, mo.y);
+        this.ctx.scale(-1, 1);
+        this.ctx.translate(-mo.x - mo.width / 2, -mo.y);
     }
 
     spawnCoins() {
@@ -126,12 +131,17 @@ class World{
         for (let i = 0; i < 10; i++) {
             let randomX;
             let overlap;
+            let attempts = 0;
             do {
                 randomX = 350 + Math.random() * 2200;
                 overlap = this.checkOverlap(randomX);
+                attempts++;
+                if (attempts > 100) break;
             } while (overlap);
-            let coin = new CollectableCoins(randomX, fixedY);
-            this.collectableCoins.push(coin);
+            if (attempts <= 100) {
+                let coin = new CollectableCoins(randomX, fixedY);
+                this.collectableCoins.push(coin);
+            }
         }
     }
 
@@ -140,12 +150,17 @@ class World{
         for (let i = 0; i < 15; i++) {
             let randomX;
             let overlap;
+            let attempts = 0;
             do {
                 randomX = 250 + Math.random() * 2200;
                 overlap = this.checkBottleOverlap(randomX);
+                attempts++;
+                if (attempts > 100) break;
             } while (overlap);
-            let bottle = new CollectableBottle(randomX, fixedY);
-            this.collectableBottles.push(bottle);
+            if (attempts <= 100) {
+                let bottle = new CollectableBottle(randomX, fixedY);
+                this.collectableBottles.push(bottle);
+            }
         }
     }
 
@@ -166,5 +181,4 @@ class World{
         }
         return false;
     }
-
 }

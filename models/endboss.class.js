@@ -33,7 +33,6 @@ class Endboss extends MovableObject {
         './img/4_enemie_boss_chicken/4_hurt/G21.png',
         './img/4_enemie_boss_chicken/4_hurt/G22.png',
         './img/4_enemie_boss_chicken/4_hurt/G23.png',
-
     ];
     IMAGES_DEAD = [
         'img/4_enemie_boss_chicken/5_dead/G24.png',
@@ -41,51 +40,62 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/5_dead/G26.png',
     ];
 
-
-
-    constructor() {
+    constructor(character) {
         super().loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
         this.x = 2800;
         this.animate();
-        this.move();
+        this.move(character); // Übergib den Charakter an die move-Methode
         this.isAlert = false;
+    }
+
+    checkCharacterProximity(character) {
+        if (!character) return; // Überprüfe, ob character definiert ist
+        const distance = Math.abs(this.x - character.x);
+        const alertRange = 300; // Beispielwert für die Reichweite
+    
+        if (distance < alertRange) {
+            this.isAlert = true; // Setze den Alarmzustand
+            this.playAnimation(this.IMAGES_ALERT); // Spiele die Alarmanimation ab
+        } else {
+            this.isAlert = false; // Setze den Alarmzustand zurück
+        }
     }
 
     animate() {
         setInterval(() => {
+            // Überprüfen, ob der Boss alarmiert ist und die Animation entsprechend abspielen
             if (this.isAlert) {
                 this.playAnimation(this.IMAGES_ALERT);
             } else {
                 this.playAnimation(this.IMAGES_WALKING);
             }
-        }, 125);
+        }, 125); // Animation alle 125ms aktualisieren
     }
 
-    move() {
-        let direction = 1;
-        const moveDistance = 200;
-        const startPosition = this.x;
+    move(character) { // Füge character als Parameter hinzu
+        let direction = 1; // Bewegungsrichtung
+        const moveDistance = 200; // Gesamter Bewegungsbereich
+        const startPosition = this.x; // Startposition des Bosses
     
-        setInterval(() => {
-            if (!this.isAlert) {
-                this.x += direction * 1;
-                if (this.x >= startPosition + moveDistance) {
-                    direction = -1;
-                    this.otherDirection = false;
-                } else if (this.x <= startPosition - moveDistance) {
-                    direction = 1;
-                    this.otherDirection = true;
-                }
+        const moveStep = () => {
+            // Bewegung in die aktuelle Richtung
+            this.x += direction * 1;
+    
+            // Grenzen für die Bewegung
+            if (this.x >= startPosition + moveDistance) { 
+                direction = -1;
+                this.otherDirection = false; 
+            } else if (this.x <= startPosition - moveDistance) {
+                direction = 1;
+                this.otherDirection = true; 
             }
-        }, 1000 / 60);
-    }
-
-    checkCharacterProximity(character) {
-        if (Math.abs(this.x - character.x) < 300) {
-            this.isAlert = true;
-        } else {
-            this.isAlert = false;
-        }
+    
+            // Überprüfe, ob der Charakter in Reichweite ist
+            this.checkCharacterProximity(character); // Übergib den Charakter hier
+    
+            requestAnimationFrame(moveStep); // Fortlaufende Animation
+        };
+        moveStep(); // Starte die Bewegung
     }
 }
