@@ -11,7 +11,11 @@ class World {
     throwableObjects = [new ThrowableObject()];
     collectableCoins = [];
     collectableBottles = [];
+    soundtrack_sound = new Audio('audio/soundtrack.mp3');
+    coin_sound = new Audio('audio/coin.mp3');
+    pickup_bottle_sound = new Audio('audio/pickup_bottle.mp3');
     
+
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -21,10 +25,18 @@ class World {
         this.run();
         this.spawnCoins();
         this.spawnBottles();
+
+        this.soundtrack_sound.volume = 0.05; // 5% volume for background music
+        this.coin_sound.volume = 0.5; // 50% volume for coin pickup sound
+        this.pickup_bottle_sound.volume = 0.5; // 50% volume for bottle pickup sound 
+
+        this.soundtrack_sound.loop = true;  // Loop background music
+        this.soundtrack_sound.play();
     }
 
     setWorld() {
         this.character.world = this;
+        this.soundtrack_sound.play();
     }
 
     run() {
@@ -46,26 +58,28 @@ class World {
                 this.statusBar.setPercentage(this.character.energy);
             }
         });
-        
+
         if (this.level.endboss && this.character.isColliding(this.level.endboss)) {
             this.character.hit();
             this.statusBar.setPercentage(this.character.energy);
         }
-    
+
         this.collectableCoins.forEach((coin, index) => {
             if (this.character.isColliding(coin)) {
                 this.collectableCoins.splice(index, 1);
                 this.statusBarCoins.increaseCoins();
+                this.coin_sound.play();
             }
         });
-        
+
         this.collectableBottles.forEach((bottle, index) => {
             if (this.character.isColliding(bottle)) {
                 this.collectableBottles.splice(index, 1);
                 this.statusBarBottles.increaseBottles();
+                this.pickup_bottle_sound.play();
             }
         });
-    
+
         if (this.level.endboss) {
             this.level.endboss.checkCharacterProximity(this.character);
         }
@@ -99,7 +113,7 @@ class World {
         this.addObjectsToMap(this.level.clouds);
         this.ctx.translate(-this.camera_x, 0);
         let self = this;
-        requestAnimationFrame(function() {
+        requestAnimationFrame(function () {
             self.draw();
         });
     }
@@ -119,7 +133,7 @@ class World {
         mo.drawFrame(this.ctx);
         this.ctx.restore();
     }
-    
+
     flipImage(mo) {
         this.ctx.translate(mo.x + mo.width / 2, mo.y);
         this.ctx.scale(-1, 1);

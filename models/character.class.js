@@ -1,4 +1,4 @@
-class Character extends MovableObject{
+class Character extends MovableObject {
     height = 220;
     width = 120;
     speed = 3;
@@ -37,8 +37,11 @@ class Character extends MovableObject{
     ];
     world;
     walking_sound = new Audio('audio/walking.mp3');
+    jump_sound = new Audio('audio/jump.mp3');
+    character_jump_sound = new Audio('audio/character_jump.mp3');
+    character_hurt_sound = new Audio('audio/character_hurt.mp3');
 
-    constructor(){
+    constructor() {
         super().loadImage('./img/2_character_pepe/2_walk/W-21.png')
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
@@ -46,24 +49,33 @@ class Character extends MovableObject{
         this.loadImages(this.IMAGES_HURT);
         this.applyGravity();
         this.animate();
+
+        this.walking_sound.volume = 0.15;  // 15% volume for walking sound
+        this.jump_sound.volume = 0.3;     // 30% volume for jump sound
+        this.character_jump_sound.volume = 0.2; // 20% volume for character jump sound
+        this.character_hurt_sound.volume = 0.2; // 20% volume for character hurt sound
     }
 
-    animate(){
+    animate() {
 
         setInterval(() => {
             this.walking_sound.pause();
-            if(this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x){
+            if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
                 this.walking_sound.play();
                 this.otherDirection = false;
             }
-            if(this.world.keyboard.LEFT && this.x > 0){
+            if (this.world.keyboard.LEFT && this.x > 0) {
                 this.moveLeft();
                 this.otherDirection = true;
                 this.walking_sound.play();
             }
-            if(this.world.keyboard.UP && !this.isAboveGround() || this.world.keyboard.SPACE && !this.isAboveGround()){
+            if (this.world.keyboard.UP && !this.isAboveGround() || this.world.keyboard.SPACE && !this.isAboveGround()) {
                 this.jump();
+                this.character_jump_sound.play();
+                setTimeout(() => {
+                    this.jump_sound.play();
+                }, 150);
             }
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
@@ -74,6 +86,7 @@ class Character extends MovableObject{
                 this.playAnimation(this.IMAGES_DEAD);
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
+                this.character_hurt_sound.play();
             } else if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);
             } else {
@@ -82,6 +95,6 @@ class Character extends MovableObject{
                 }
             }
         }, 100);
-    } 
+    }
 
 }
