@@ -11,10 +11,11 @@ class World {
     throwableObjects = [new ThrowableObject()];
     collectableCoins = [];
     collectableBottles = [];
+
     soundtrack_sound = new Audio('audio/soundtrack.mp3');
     coin_sound = new Audio('audio/coin.mp3');
     pickup_bottle_sound = new Audio('audio/pickup_bottle.mp3');
-    
+
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
