@@ -1,6 +1,6 @@
 class ThrowableObject extends MovableObject {
 
-    throw_sound = new Audio('audio/throw.mp3');
+    throwing_sound = new Audio('audio/throwing.mp3');
 
     constructor(x, y) {
         super().loadImage('./img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png');
@@ -10,7 +10,7 @@ class ThrowableObject extends MovableObject {
         this.height = 70;
         this.throw();
 
-        this.throw_sound.volume = 0.5; // 50% volume for throw sound
+        this.throwing_sound.volume = 0.5; // 50% volume for throw sound
     }
 
     throw() {
@@ -19,6 +19,6 @@ class ThrowableObject extends MovableObject {
         setInterval(() => {
             this.x += 10;
         }, 35);
-        this.throw_sound.play();
+        this.throwing_sound.play();
     }
 }
