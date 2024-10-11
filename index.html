@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>El Pollo Loco</title>
+    <link rel="icon" type="image/x-icon" href="./img/10_interface_icons/favicon.png">
 
     <link rel="stylesheet" href="style.css">
     <script src="./models/drawable-object.class.js"></script>
@@ -26,13 +28,26 @@
     <script src="./js/game.js"></script>
 
 </head>
+
 <body onload="init()">
 
     <h1>El Pollo Loco</h1>
 
     <canvas id="canvas" width="720" height="480">
-         
+        <div class="interface-icons">
+            <div class="walk-left-icon">Left</div>
+            <div class="jump-icon">Jump</div>
+            <div class="walk-right-icon">Right</div>
+            <div class="throw-icon">Throw Bottle</div>
+            <div class="restart-icon"></div>
+            <div class="sound-icon">Mute</div>
+            <div class="fullscreen-icon">Fullscreen</div>
+
+
+        </div>
+
     </canvas>
 
 </body>
+
 </html>
