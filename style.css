@@ -1,4 +1,20 @@
+@font-face {
+    font-family: 'Stardos Stencil';
+    src: url('./fonts/StardosStencil-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Stardos Stencil';
+    src: url('./fonts/StardosStencil-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
 body {
+    font-family: 'Stardos Stencil', sans-serif;
+    font-weight: normal;
     margin: 0;
     padding: 0;
     display: flex;
@@ -9,9 +25,22 @@ body {
     background-image: url('./img/5_background/layers/background.jpg');
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
+    font-family: 'Stardos Stencil', serif;
+    font-weight: bold;
     text-align: center;
     color: white;
+    font-size: 40px;
+    text-shadow: 2px 2px 0px rgb(177, 103, 92, 0.9),
+        /* Right bottom shadow */
+        -2px 2px 0px rgb(177, 103, 92, 0.9),
+        /* Left bottom shadow */
+        2px -2px 0px rgb(177, 103, 92, 0.9),
+        /* Right top shadow */
+        -2px -2px 0px rgb(177, 103, 92, 0.9);
+    /* Left top shadow */
 }
 
 .canvas-container {
@@ -59,6 +88,7 @@ h1, h2, h3 {
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    height: 60px;
 }
 
 
@@ -78,7 +108,7 @@ h1, h2, h3 {
 
 /* Modal Content */
 .modal-content {
-    background-color: rgb(177, 103, 92, 0.9);
+    background-color: rgba(177, 133, 92, 0.9);
     margin: 10.8% auto;
     padding: 20px;
     border: solid 16px rgba(255, 255, 255, 0.5);
@@ -115,4 +145,3 @@ h1, h2, h3 {
     width: 50px;
     height: 50px;
 }
-
