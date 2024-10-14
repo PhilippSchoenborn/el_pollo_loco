@@ -32,18 +32,34 @@
 <body onload="init()">
 
     <h1>El Pollo Loco</h1>
-
-    <canvas id="canvas" width="720" height="480"></canvas>
-    <div class="interface-icons">
-        <div class="left-arrow-icon, flex">Left <img class="img-icon" src="./img/10_interface_icons/left_button.png" alt="left-arrow-icon"></div>
-        <div class="jump-icon, flex">Jump <img class="img-icon" src="./img/10_interface_icons/jump_button.png" alt="jump icon"></div>
-        <div class="right-arrow-icon, flex">Right <img class="img-icon" src="./img/10_interface_icons/right_button.png" alt="right-arrow-icon"></div>
-        <div class="throw-icon, flex">Throw Bottle <img class="img-icon" src="./img/10_interface_icons/throw_button.png" alt="throw-icon"></div>
-        <div class="restart-icon, flex">Restart<img class="img-icon" src="./img/10_interface_icons/restart_button.png" alt="restart-icon"></div>
-        <div class="sound-icon, flex">Mute <img class="img-icon" src="./img/10_interface_icons/sound_button.png" alt="mute-icon"></div>
-        <div class="fullscreen-icon, flex">Fullscreen <img class="img-icon" src="./img/10_interface_icons/fullscreen_button.png" alt="fullscreen-icon"></div>
+    <div class="canvas-container">
+        <canvas id="canvas" width="720" height="480"></canvas>
+        <div class="interface-icons">
+            <img onclick="openModal()" class="img-icon" src="./img/10_interface_icons/info.PNG" alt="info button">
+            <img onclick="toggleMute()" class="img-icon" id="volume-button" src="./img/10_interface_icons/volume.png" alt="volume button">
+            <img class="img-icon" src="./img/10_interface_icons/fullscreen.png" alt="fullscreen button">
+            <img class="img-icon" src="./img/10_interface_icons/reload.png" alt="reload button">
+        </div>
     </div>
 
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+
+            <span class="close" onclick="closeModal()">&times;</span>
+
+            <h2>Game Controls</h2>
+
+            <div class="controls-images">
+                <div class="controls"><img src="./img/10_interface_icons/arrow_left.png" alt="Left Arrow"><h3>Left</h3></div>
+                <div class="controls"><img src="./img/10_interface_icons/arrow_right.png" alt="Right Arrow"><h3>Right</h3></div>
+                <div class="controls"><img src="./img/10_interface_icons/arrow_up.png" alt="Up Arrow"><h3>Jump</h3></div>
+                <div class="controls"><img src="./img/10_interface_icons/space.png" alt="Space Key"><h3>Jump</h3></div>
+                <div class="controls"><img src="./img/10_interface_icons/key_d.png" alt="D Key"><h3>Throw</h3></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/scripts.js"></script>
 </body>
 
 </html>
