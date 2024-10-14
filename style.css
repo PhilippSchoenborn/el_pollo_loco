@@ -9,12 +9,7 @@ body {
     background-image: url('./img/5_background/layers/background.jpg');
 }
 
-h1 {
-    text-align: center;
-    color: white;
-}
-
-h2 {
+h1, h2, h3 {
     text-align: center;
     color: white;
 }
@@ -83,7 +78,7 @@ h2 {
 
 /* Modal Content */
 .modal-content {
-    background-color: #c78e4c;
+    background-color: rgb(177, 103, 92, 0.9);
     margin: 10.8% auto;
     padding: 20px;
     border: solid 16px rgba(255, 255, 255, 0.5);
