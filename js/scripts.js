@@ -7,35 +7,99 @@ function toggleMute() {
     }
 }
 
-// Get the modal
+
 const modal = document.getElementById('infoModal');
 
-// Function to open the modal
+
+function isFullscreen() {
+    return document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
+}
+
+
 function openModal() {
     modal.style.display = "block";
-}
 
-// Function to close the modal
-function closeModal() {
-    modal.style.display = "none";
-}
+    if (isFullscreen()) {
+        const elem = document.documentElement;
 
-// Close the modal if the user clicks anywhere outside the modal content
-window.onclick = function (event) {
-    if (event.target === modal) {
-        modal.style.display = "none";
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+        } else if (elem.mozRequestFullScreen) { // Firefox
+            elem.mozRequestFullScreen();
+        } else if (elem.webkitRequestFullscreen) { // Chrome, Safari, and Opera
+            elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) { // IE/Edge
+            elem.msRequestFullscreen();
+        }
     }
 }
 
-function openFullscreen() {
+
+function closeModal() {
+    modal.style.display = "none";
+
+
+    if (isFullscreen()) {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.mozCancelFullScreen) { // Firefox
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) { // Chrome, Safari, and Opera
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) { // IE/Edge
+            document.msExitFullscreen();
+        }
+    }
+}
+
+
+window.onclick = function (event) {
+    if (event.target === modal) {
+        closeModal();
+    }
+}
+
+
+function isFullscreen() {
+    return document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
+}
+
+
+function toggleFullscreen() {
     const canvasContainer = document.querySelector('.canvas-container');
-    if (canvasContainer.requestFullscreen) {
-        canvasContainer.requestFullscreen();
-    } else if (canvasContainer.mozRequestFullScreen) { // Firefox
-        canvasContainer.mozRequestFullScreen();
-    } else if (canvasContainer.webkitRequestFullscreen) { // Chrome, Safari, and Opera
-        canvasContainer.webkitRequestFullscreen();
-    } else if (canvasContainer.msRequestFullscreen) { // IE/Edge
-        canvasContainer.msRequestFullscreen();
+
+    if (isFullscreen()) {
+        // If fullscreen is active, exit fullscreen
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.mozCancelFullScreen) { // Firefox
+            document.mozCancelFullScreen();
+        } else if (document.webkitExitFullscreen) { // Chrome, Safari, and Opera
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) { // IE/Edge
+            document.msExitFullscreen();
+        }
+    } else {
+        // If not in fullscreen, enter fullscreen
+        if (canvasContainer.requestFullscreen) {
+            canvasContainer.requestFullscreen();
+        } else if (canvasContainer.mozRequestFullScreen) { // Firefox
+            canvasContainer.mozRequestFullScreen();
+        } else if (canvasContainer.webkitRequestFullscreen) { // Chrome, Safari, and Opera
+            canvasContainer.webkitRequestFullscreen();
+        } else if (canvasContainer.msRequestFullscreen) { // IE/Edge
+            canvasContainer.msRequestFullscreen();
+        }
+    }
+}
+
+
+document.querySelector('.img-icon[alt="fullscreen button"]').onclick = toggleFullscreen;
+
+
+function reloadGame() {
+    const confirmation = confirm("Restart the game?");
+    if (confirmation) {
+        location.reload();
     }
 }
