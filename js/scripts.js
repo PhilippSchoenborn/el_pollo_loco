@@ -60,11 +60,6 @@ window.onclick = function (event) {
 }
 
 
-function isFullscreen() {
-    return document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
-}
-
-
 function toggleFullscreen() {
     const canvasContainer = document.querySelector('.canvas-container');
 
@@ -102,4 +97,18 @@ function reloadGame() {
     if (confirmation) {
         location.reload();
     }
+}
+
+
+function startGame() {
+    const loadingImage = document.getElementById('loadingImage');
+    const gameContainer = document.getElementById('gameContainer');
+    const startButton = document.querySelector('.start-screen-icon');
+
+    loadingImage.classList.add('hidden');
+    startButton.style.display = 'none';
+    startButton.onclick = null;
+    gameContainer.style.display = 'block';
+
+    init();
 }

@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>El Pollo Loco</title>
     <link rel="icon" type="image/x-icon" href="./img/10_interface_icons/favicon.png">
-
     <link rel="stylesheet" href="style.css">
+
+    <!-- game scripts -->
     <script src="./models/drawable-object.class.js"></script>
     <script src="./models/movable-object.class.js"></script>
     <script src="./models/status-bar.class.js"></script>
@@ -29,47 +30,61 @@
 
 </head>
 
-<body onload="init()">
-
-    <h1>El Pollo Loco</h1>
-    <div class="canvas-container">
+<body>
+    <!-- Game container with canvas and loading screen -->
+    <div class="canvas-container" id="gameContainer">
         <canvas id="canvas" width="720" height="480"></canvas>
-        <div class="interface-icons">
-            <img onclick="openModal()" class="img-icon" src="./img/10_interface_icons/info.PNG" alt="info button">
-            <img onclick="toggleMute()" class="img-icon" id="volume-button" src="./img/10_interface_icons/volume.png"
-                alt="volume button">
-            <img onclick="openFullscreen()" class="img-icon" src="./img/10_interface_icons/fullscreen.png"
-                alt="fullscreen button">
-            <img onclick="reloadGame()" class="img-icon" src="./img/10_interface_icons/reload.png" alt="reload button">
+
+        <!-- Loading Screen Image -->
+        <img class="start-screen" id="loadingImage" src="./img/9_intro_outro_screens/start/startscreen_1.png"
+            alt="Loading Screen Image">
+
+        <!-- Interface Icons -->
+        <div class="interface-container">
+            <img onclick="startGame()" class="start-screen-icon"
+                src="./img/10_interface_icons/start_button.png" alt="start button">
+
+            <div class="interface-icons">
+
+                <img onclick="openModal()" class="img-icon" src="./img/10_interface_icons/info.PNG" alt="info button">
+                <img onclick="toggleMute()" class="img-icon" id="volume-button"
+                    src="./img/10_interface_icons/volume.png" alt="volume button">
+                <img onclick="toggleFullscreen()" class="img-icon" src="./img/10_interface_icons/fullscreen.png"
+                    alt="fullscreen button">
+                <img onclick="reloadGame()" class="img-icon" src="./img/10_interface_icons/reload.png"
+                    alt="reload button">
+            </div>
         </div>
+
     </div>
 
+    <!-- Info Modal for Game Controls -->
     <div id="infoModal" class="modal">
         <div class="modal-content">
-
             <span class="close" onclick="closeModal()">&times;</span>
-
             <h2>Game Controls</h2>
-
             <div class="controls-images">
-                <div class="controls"><img src="./img/10_interface_icons/arrow_left.png" alt="Left Arrow">
+                <div class="controls">
+                    <img src="./img/10_interface_icons/arrow_left.png" alt="Left Arrow">
                     <h3>Left</h3>
                 </div>
-                <div class="controls"><img src="./img/10_interface_icons/arrow_right.png" alt="Right Arrow">
+                <div class="controls">
+                    <img src="./img/10_interface_icons/arrow_right.png" alt="Right Arrow">
                     <h3>Right</h3>
                 </div>
                 <div class="controls">
-                    <img src="./img/10_interface_icons/arrow_up.png" alt="Up Arrow"><h3>/</h3>
+                    <img src="./img/10_interface_icons/arrow_up.png" alt="Up Arrow">
+                    <h3>/</h3>
                     <img src="./img/10_interface_icons/space.png" alt="Space Key">
                     <h3>Jump</h3>
                 </div>
-                <div class="controls"><img src="./img/10_interface_icons/key_d.png" alt="D Key">
+                <div class="controls">
+                    <img src="./img/10_interface_icons/key_d.png" alt="D Key">
                     <h3>Throw</h3>
                 </div>
             </div>
         </div>
     </div>
-
 
     <script src="./js/scripts.js"></script>
 </body>
