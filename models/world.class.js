@@ -16,6 +16,7 @@ class World {
     coin_sound = new Audio('audio/coin.mp3');
     pickup_bottle_sound = new Audio('audio/pickup_bottle.mp3');
 
+    gameIsRunning = true; // Boolean flag to manage the game state
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -41,13 +42,17 @@ class World {
     }
 
     run() {
-        setInterval(() => {
+        // Run the game loop at set intervals
+        this.gameInterval = setInterval(() => {
+            if (!this.gameIsRunning) {
+                clearInterval(this.gameInterval); // Stop the interval if game is over
+                return;
+            }
             this.checkCollisions();
             this.checkThrowObjects();
 
-            // Überprüfe die Proximität nur für den Endboss
             if (this.level.endboss) {
-                this.level.endboss.checkCharacterProximity(this.character); // Überprüfe die Proximität nur für den Endboss
+                this.level.endboss.checkCharacterProximity(this.character); // Check proximity to endboss
             }
         }, 200);
     }
@@ -57,12 +62,18 @@ class World {
             if (this.character.isColliding(enemy)) {
                 this.character.hit();
                 this.statusBar.setPercentage(this.character.energy);
+                if (this.character.energy <= 0) {
+                    this.endGame(); // End game when character energy is zero
+                }
             }
         });
 
         if (this.level.endboss && this.character.isColliding(this.level.endboss)) {
             this.character.hit();
             this.statusBar.setPercentage(this.character.energy);
+            if (this.character.energy <= 0) {
+                this.endGame(); // End game when character energy is zero
+            }
         }
 
         this.collectableCoins.forEach((coin, index) => {
@@ -80,10 +91,6 @@ class World {
                 this.pickup_bottle_sound.play();
             }
         });
-
-        if (this.level.endboss) {
-            this.level.endboss.checkCharacterProximity(this.character);
-        }
     }
 
     checkThrowObjects() {
@@ -95,6 +102,10 @@ class World {
     }
 
     draw() {
+        if (!this.gameIsRunning) {
+            return; // Stop the drawing loop if the game is over
+        }
+
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
@@ -113,6 +124,7 @@ class World {
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.clouds);
         this.ctx.translate(-this.camera_x, 0);
+
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
@@ -195,5 +207,11 @@ class World {
             }
         }
         return false;
+    }
+
+    endGame() {
+        this.gameIsRunning = false; // Stop the game loop
+        this.soundtrack_sound.pause(); // Optionally pause the background music
+        gameOver(); // Call the gameOver() function to show the Game Over screen
     }
 }

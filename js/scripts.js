@@ -112,3 +112,21 @@ function startGame() {
 
     init();
 }
+
+function gameOver() {
+    const gameOverScreen = document.getElementById('gameOverScreen');
+    gameOverScreen.classList.remove('hidden');
+
+    disableUserInput();
+}
+
+
+
+function disableUserInput() {
+    if (typeof handleKeyDown === 'function') {
+        document.removeEventListener('keydown', handleKeyDown);
+    }
+    if (typeof handleKeyUp === 'function') {
+        document.removeEventListener('keyup', handleKeyUp);
+    }
+}
