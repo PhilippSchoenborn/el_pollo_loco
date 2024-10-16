@@ -85,6 +85,10 @@ h3 {
     transition: transform 0.2s ease, filter 0.2s ease;
 }
 
+.img-icon:hover {
+    scale: 1.1;
+}
+
 /* Modal styles */
 .modal {
     display: none;
@@ -136,13 +140,13 @@ h3 {
     display: none;
 }
 
-/*start screen icon*/
 .start-screen-icon {
-    width: 120px;
-    z-index: 4;
-    position: relative;
-    top: -460px;
-    left: 290px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 100px;
+    cursor: pointer;
+    z-index: 5;
 }
 
 .start-screen-icon:hover {
