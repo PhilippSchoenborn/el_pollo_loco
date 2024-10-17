@@ -205,4 +205,25 @@ class Character extends MovableObject {
             this.playAnimation(this.IMAGES_WALKING);
         }
     }
+
+    stopAllSounds() {
+        let sounds = [
+            this.walking_sound,
+            this.jump_sound,
+            this.character_jump_sound,
+            this.character_hurt_sound,
+            this.snoring_sound
+        ];
+
+        sounds.forEach(sound => {
+            if (sound) {
+                sound.pause();
+                sound.currentTime = 0;  // Reset the playback position
+                sound.volume = 0;       // Mute the audio without removing the source
+            }
+        });
+    }
+
+
+
 }

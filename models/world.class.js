@@ -34,6 +34,17 @@ class World {
 
         this.soundtrack_sound.loop = true;  // Loop background music
         this.soundtrack_sound.play();
+
+        this.allSounds = [
+            this.character.walking_sound,
+            this.character.jump_sound,
+            this.character.character_jump_sound,
+            this.character.character_hurt_sound,
+            this.character.snoring_sound,
+            this.soundtrack_sound,
+            this.coin_sound,
+            this.pickup_bottle_sound
+        ];
     }
 
     setWorld() {
@@ -211,7 +222,20 @@ class World {
 
     endGame() {
         this.gameIsRunning = false; // Stop the game loop
-        this.soundtrack_sound.pause(); // Optionally pause the background music
-        gameOver(); // Call the gameOver() function to show the Game Over screen
+        this.stopAllSounds();       // Stop all sounds using the world-level method
+        gameOver();                 // Display game over screen
     }
+
+
+    stopAllSounds() {
+        this.allSounds.forEach(sound => {
+            if (sound) {
+                sound.pause();
+                sound.currentTime = 0;  // Reset the playback position
+                sound.volume = 0;       // Mute the audio without removing the source
+            }
+        });
+    }
+
+
 }
