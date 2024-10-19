@@ -152,6 +152,8 @@ class Character extends MovableObject {
 
         this.world.camera_x = -this.x + 100;
 
+        console.log(`Character Position - X: ${this.x}, Y: ${this.y}`);
+
         // Stop snoring sound when moving
         if (isMoving && this.snoringSoundPlaying) {
             this.snoring_sound.pause();

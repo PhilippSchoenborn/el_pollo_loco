@@ -2,6 +2,7 @@ class Endboss extends MovableObject {
     height = 280;
     width = 265;
     y = 160;
+    speed = 2; // Geschwindigkeit des Bosses
 
     IMAGES_WALKING = [
         './img/4_enemie_boss_chicken/1_walk/G1.png',
@@ -42,60 +43,36 @@ class Endboss extends MovableObject {
 
     constructor(character) {
         super().loadImage(this.IMAGES_WALKING[0]);
+        this.character = character;
         this.loadImages(this.IMAGES_WALKING);
-        this.x = 2800;
-        this.animate();
-        this.move(character); // Übergib den Charakter an die move-Methode
+        this.loadImages(this.IMAGES_ALERT);
+        this.loadImages(this.IMAGES_ATTACK);
+        this.x = 2800; // Position außerhalb des Sichtfelds
         this.isAlert = false;
-    }
-
-    checkCharacterProximity(character) {
-        if (!character) return; // Überprüfe, ob character definiert ist
-        const distance = Math.abs(this.x - character.x);
-        const alertRange = 300; // Beispielwert für die Reichweite
-    
-        if (distance < alertRange) {
-            this.isAlert = true; // Setze den Alarmzustand
-            this.playAnimation(this.IMAGES_ALERT); // Spiele die Alarmanimation ab
-        } else {
-            this.isAlert = false; // Setze den Alarmzustand zurück
-        }
+        this.isAttacking = false; // Neue Variable, um zu steuern, ob der Boss angreift
+        this.animate();
     }
 
     animate() {
         setInterval(() => {
-            // Überprüfen, ob der Boss alarmiert ist und die Animation entsprechend abspielen
-            if (this.isAlert) {
-                this.playAnimation(this.IMAGES_ALERT);
-            } else {
-                this.playAnimation(this.IMAGES_WALKING);
-            }
-        }, 125); // Animation alle 125ms aktualisieren
+            this.playAnimation(this.IMAGES_WALKING);
+            this.checkAndMove(); // Überprüfen und Bewegen
+        }, 125);
     }
 
-    move(character) { // Füge character als Parameter hinzu
-        let direction = 1; // Bewegungsrichtung
-        const moveDistance = 200; // Gesamter Bewegungsbereich
-        const startPosition = this.x; // Startposition des Bosses
-    
-        const moveStep = () => {
-            // Bewegung in die aktuelle Richtung
-            this.x += direction * 1;
-    
-            // Grenzen für die Bewegung
-            if (this.x >= startPosition + moveDistance) { 
-                direction = -1;
-                this.otherDirection = false; 
-            } else if (this.x <= startPosition - moveDistance) {
-                direction = 1;
-                this.otherDirection = true; 
-            }
-    
-            // Überprüfe, ob der Charakter in Reichweite ist
-            this.checkCharacterProximity(character); // Übergib den Charakter hier
-    
-            requestAnimationFrame(moveStep); // Fortlaufende Animation
-        };
-        moveStep(); // Starte die Bewegung
+    checkAndMove() {
+        console.log(this.character); // Debugging: Überprüfe, ob der Charakter gesetzt ist
+        if (this.character && typeof this.character.x !== 'undefined' && this.character.x >= 2500) {
+            this.moveLeft(); // Bewege den Endboss nach links
+            console.log(`Endboss Position: ${this.x}`);
+        }
+    }
+
+    moveLeft() {
+        this.x -= this.speed; // Bewegung des Bosses nach links
+        // Stellt sicher, dass der Endboss nicht über die linke Grenze hinausgeht
+        if (this.x < 0) {
+            this.x = 0; // Setze die Position auf 0, wenn sie kleiner als 0 ist
+        }
     }
 }

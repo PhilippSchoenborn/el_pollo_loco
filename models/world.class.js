@@ -1,11 +1,13 @@
 class World {
     character = new Character();
+    endboss = new Endboss();
     level = level1;
     canvas;
     ctx;
     keyboard;
     camera_x = 0;
     statusBar = new StatusBar();
+    statusBarEndboss = new StatusBarEndboss();
     statusBarCoins = new StatusBarCoins();
     statusBarBottles = new StatusBarBottles();
     throwableObjects = [new ThrowableObject()];
@@ -61,6 +63,7 @@ class World {
             }
             this.checkCollisions();
             this.checkThrowObjects();
+            this.endboss.checkAndMove();
 
             if (this.level.endboss) {
                 this.level.endboss.checkCharacterProximity(this.character); // Check proximity to endboss
@@ -123,6 +126,7 @@ class World {
 
         this.ctx.translate(-this.camera_x, 0);
         this.addToMap(this.statusBar);
+        this.addToMap(this.statusBarEndboss);
         this.addToMap(this.statusBarCoins);
         this.addToMap(this.statusBarBottles);
 
