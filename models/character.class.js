@@ -152,28 +152,32 @@ class Character extends MovableObject {
 
         this.world.camera_x = -this.x + 100;
 
-        console.log(`Character Position - X: ${this.x}, Y: ${this.y}`);
-
         // Stop snoring sound when moving
         if (isMoving && this.snoringSoundPlaying) {
             this.snoring_sound.pause();
             this.snoring_sound.currentTime = 0;
             this.snoringSoundPlaying = false;
         }
+
+        // Set isIdle to false when moving
+        this.isIdle = !isMoving;  // If isMoving is true, isIdle becomes false
     }
 
+
     /**
-     * Handles the idle state of the character, including playing idle animations and snoring sounds.
-     */
+ * Handles the idle state of the character, including playing idle animations and snoring sounds.
+ */
     handleIdleState() {
         let currentTime = Date.now();
-        if (!this.isAboveGround() && currentTime - this.lastMovementTime >= this.idleTimeThreshold) {
+
+        // Only play idle animations when the character is not moving
+        if (this.isIdle && !this.isAboveGround() && currentTime - this.lastMovementTime >= this.idleTimeThreshold) {
             if (!this.snoringSoundPlaying) {
                 this.snoring_sound.play();
                 this.snoringSoundPlaying = true;
             }
             this.playIdleAnimation(this.IMAGES_LONG_IDLE, this.longIdleAnimationSpeed);
-        } else if (!this.isAboveGround()) {
+        } else if (this.isIdle && !this.isAboveGround()) {
             this.playIdleAnimation(this.IMAGES_IDLE, this.idleAnimationSpeed);
         }
     }
