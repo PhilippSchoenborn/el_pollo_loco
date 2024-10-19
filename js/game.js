@@ -143,10 +143,7 @@ function toggleFullscreen() {
 
 
 function reloadGame() {
-    const confirmation = confirm("Restart the game?");
-    if (confirmation) {
-        location.reload();
-    }
+    location.reload();
 }
 
 
@@ -166,7 +163,9 @@ function startGame() {
 
 function gameOver() {
     const gameOverScreen = document.getElementById('gameOverScreen');
+    const tryAgainButton = document.getElementById('tryAgainButton');
     gameOverScreen.classList.remove('hidden');
+    tryAgainButton.classList.remove('hidden');
 
     disableUserInput();
 }
