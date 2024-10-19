@@ -61,10 +61,8 @@ class Endboss extends MovableObject {
     }
 
     checkAndMove() {
-        console.log(this.character); // Debugging: Überprüfe, ob der Charakter gesetzt ist
         if (this.character && typeof this.character.x !== 'undefined' && this.character.x >= 2500) {
             this.moveLeft(); // Bewege den Endboss nach links
-            console.log(`Endboss Position: ${this.x}`);
         }
     }
 
